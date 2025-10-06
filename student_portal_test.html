@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talabalar Portali - To'liq Test</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        body {font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: #333; padding: 20px;}
+        .container {max-width: 900px; margin: 0 auto;}
+        .header {background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 25px; margin-bottom: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);}
+        .header h1 {font-size: 2em; background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px;}
+        .content-box {background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); margin-bottom: 20px;}
+        .input-group {margin: 18px 0;}
+        .input-group label {display: block; font-weight: 600; margin-bottom: 8px; color: #2c3e50;}
+        .input-group input, .input-group select {width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 15px; transition: border-color 0.3s;}
+        .input-group input:focus, .input-group select:focus {border-color: #667eea; outline: none;}
+        .btn {background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none; padding: 14px 28px; border-radius: 25px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;}
+        .btn:hover {transform: translateY(-2px); box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);}
+        .btn:disabled {opacity: 0.5; cursor: not-allowed; transform: none;}
+        .btn-secondary {background: linear-gradient(45deg, #95a5a6, #7f8c8d);}
+        .hidden {display: none !important;}
+        .test-progress {background: #e0e0e0; height: 8px; border-radius: 4px; margin: 20px 0; overflow: hidden;}
+        .test-progress-bar {height: 100%; background: linear-gradient(45deg, #667eea, #764ba2); transition: width 0.4s ease;}
+        .question-card {background: #f8f9fa; border-radius: 12px; padding: 22px; margin: 18px 0; border-left: 4px solid #667eea;}
+        .question-number {color: #667eea; font-weight: 600; font-size: 14px; margin-bottom: 8px;}
+        .question-text {font-size: 17px; margin-bottom: 14px; color: #2c3e50; font-weight: 500;}
+        .answer-option {background: white; border: 2px solid #e0e0e0; border-radius: 8px; padding: 14px; margin: 10px 0; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center;}
+        .answer-option:hover {border-color: #667eea; background: #f8f9fa; transform: translateX(4px);}
+        .answer-option.selected {border-color: #667eea; background: #e8eeff;}
+        .answer-option input[type="radio"] {margin-right: 12px; width: 18px; height: 18px;}
+        .test-navigation {display: flex; justify-content: space-between; margin-top: 25px; gap: 10px;}
+        .alert {padding: 14px; border-radius: 8px; margin: 18px 0;}
+        .alert-info {background: #e3f2fd; border-left: 4px solid #2196f3; color: #1565c0;}
+        .result-highlight {text-align: center; padding: 30px; background: linear-gradient(45deg, #667eea, #764ba2); color: white; border-radius: 15px; margin: 20px 0;}
+        .result-highlight .score {font-size: 48px; font-weight: bold; margin: 15px 0;}
+        .result-box {background: #f8f9fa; padding: 20px; border-radius: 12px; margin: 18px 0;}
+        .modal-bar {margin: 12px 0;}
+        .modal-bar-label {font-weight: 600; margin-bottom: 6px;}
+        .modal-bar-container {background: #e0e0e0; height: 28px; border-radius: 14px; overflow: hidden;}
+        .modal-bar-fill {height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 13px; transition: width 0.5s ease;}
+        .recommendation-box {background: #e8f5e9; padding: 20px; border-radius: 12px; margin: 18px 0; border-left: 4px solid #4caf50;}
+        .test-intro {background: #fff3e0; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #ff9800;}
+        @media (max-width: 600px) {.header h1 {font-size: 1.5em;} .content-box {padding: 20px;} .test-navigation {flex-direction: column;}}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>4+1 Formula - Talabalar Portali</h1>
+            <p>Diagnostik testlar tizimi</p>
+        </div>
+
+        <div id="registration-section" class="content-box">
+            <h2>Ro'yxatdan o'tish</h2>
+            <p style="margin-bottom: 20px;">Testlarni boshlash uchun ma'lumotlarni kiriting:</p>
+            <div class="input-group">
+                <label>Ism Familiya:</label>
+                <input type="text" id="student-name" placeholder="Masalan: Aziza Karimova">
+            </div>
+            <div class="input-group">
+                <label>Guruh:</label>
+                <select id="student-group">
+                    <option value="">Tanlang...</option>
+                    <option value="1G">1G</option>
+                    <option value="1E">1E</option>
+                </select>
+            </div>
+            <div class="alert alert-info">
+                <strong>3 ta test:</strong> Axborot kompetentsiyasi (20 savol), VARK modal test (16 savol), Raqamli texnologiyalar (15 savol). Jami: ~30-40 daqiqa.
+            </div>
+            <button class="btn" onclick="startRegistration()">Testlarni boshlash</button>
+        </div>
+
+        <div id="test1-section" class="content-box hidden">
+            <h2>Test 1: Axborot Kompetentsiyasi</h2>
+            <div class="test-intro"><strong>Ko'rsatma:</strong> 20 ta savol. Har bir to'g'ri javob 5 ball.</div>
+            <div class="test-progress"><div class="test-progress-bar" id="test1-progress"></div></div>
+            <div id="test1-questions"></div>
+            <div class="test-navigation">
+                <button class="btn btn-secondary" onclick="goBack(1)">Orqaga</button>
+                <button class="btn" id="test1-next" onclick="nextTest(1)" disabled>Keyingi</button>
+            </div>
+        </div>
+
+        <div id="test2-section" class="content-box hidden">
+            <h2>Test 2: VARK Modal Test</h2>
+            <div class="test-intro"><strong>Ko'rsatma:</strong> 16 ta savol. O'rganish uslubingizni aniqlash.</div>
+            <div class="test-progress"><div class="test-progress-bar" id="test2-progress"></div></div>
+            <div id="test2-questions"></div>
+            <div class="test-navigation">
+                <button class="btn btn-secondary" onclick="goBack(2)">Orqaga</button>
+                <button class="btn" id="test2-next" onclick="nextTest(2)" disabled>Keyingi</button>
+            </div>
+        </div>
+
+        <div id="test3-section" class="content-box hidden">
+            <h2>Test 3: Raqamli Texnologiyalar</h2>
+            <div class="test-intro"><strong>Ko'rsatma:</strong> 15 ta savol. Har bir to'g'ri javob 7 ball.</div>
+            <div class="test-progress"><div class="test-progress-bar" id="test3-progress"></div></div>
+            <div id="test3-questions"></div>
+            <div class="test-navigation">
+                <button class="btn btn-secondary" onclick="goBack(3)">Orqaga</button>
+                <button class="btn" id="test3-finish" onclick="finishTests()" disabled>Yakunlash</button>
+            </div>
+        </div>
+
+        <div id="results-section" class="content-box hidden">
+            <h2>Test Natijalari</h2>
+            <div id="results-content"></div>
+        </div>
+    </div>
+
+    <script>
+        let studentData={},test1Answers=[],test2Answers=[],test3Answers=[];
+        const test1Questions=[{q:"Internetdan topilgan ma'lumotlarning ishonchliligini qanday tekshirasiz?",a:["Birinchi natijaga ishonaman","Bir necha manbani solishtirib ko'raman","Muallifni, domenni va sanani tekshiraman","Hech qachon tekshirmayman"],correct:2},{q:"Katta matndan kerakli ma'lumotni tez topish uchun?",a:["Ctrl+F qidiruv","Hammasini o'qish","Tasodifiy qidirish","Boshqadan so'rash"],correct:0},{q:"Noma'lum email havolani ochish kerakmi?",a:["Ha, doim","Yo'q, tekshirish kerak","Farqi yo'q","Faqat telefondan"],correct:1},{q:"Ma'lumotlarni saqlashning eng xavfsiz usuli?",a:["Faqat kompyuter","Bulut + zahira nusxa","Faqat flashka","Saqlamaslik"],correct:1},{q:"Ilmiy ishda internet manbalarini qanday ko'rsatish kerak?",a:["Ko'rsatish shart emas","Faqat havola","To'liq iqtibos + muallif","Faqat sayt nomi"],correct:2},{q:"Parolni yaratishda eng xavfsiz variant?",a:["123456 yoki qwerty","Ism va tug'ilgan yil","Katta-kichik harf, raqam, belgilar","Bir xil parol hamma joyda"],correct:2},{q:"Google Scholar nima uchun ishlatiladi?",a:["Ijtimoiy tarmoq","Ilmiy maqolalarni qidirish","Video tomosha","Onlayn sotish"],correct:1},{q:"PDF faylning asosiy afzalligi?",a:["Tahrirlash oson","Hajmi kichik","Barcha qurilmada bir xil ko'rinadi","Faqat rasm saqlaydi"],correct:2},{q:"Axborot manbayi ishonchli ekanini qanday bilish mumkin?",a:["Chiroyli dizayn","Muallif malakasi va havolalar mavjud","Ko'p reklama","Birinchi sahifada"],correct:1},{q:"Plagiat nima?",a:["Boshqaning ishini o'zniki deb ko'rsatish","Ko'p manbadan foydalanish","Ilmiy tadqiqot","Darslik yozish"],correct:0},{q:"Google Drive asosiy vazifasi?",a:["Fayllarni onlayn saqlash va ulashish","Video o'yinlari","Ijtimoiy muloqot","Kompyuterni tezlashtirish"],correct:0},{q:"Excel da summani hisoblash formulasi?",a:["=AVG()","=SUM()","=COUNT()","=MAX()"],correct:1},{q:"Axborotni to'g'ri taqdim etish tamoyili?",a:["Ko'proq matn yozish","Strukturali, aniq va qisqa","Faqat rasmlar","Formatsiz"],correct:1},{q:"Wikipedia ilmiy ishda to'g'ridan-to'g'ri iqtibos uchun ishlatilishi mumkinmi?",a:["Ha, har doim","Yo'q, faqat boshlang'ich ma'lumot uchun","Faqat ingliz tilida","Faqat tarixiy ma'lumotlar uchun"],correct:1},{q:"Onlayn kutubxonalarning asosiy afzalligi?",a:["Bepul internet","Istalgan vaqt va joydan foydalanish","Kitob chop etish","Kitob sotish"],correct:1},{q:"Ma'lumotlarni zaxiralash (backup) nima uchun muhim?",a:["Kompyuter tezroq ishlaydi","Ma'lumot yo'qolishidan himoya","Internet tezlashadi","Parolni eslab qolish"],correct:1},{q:"Email xavfsizligi uchun nima qilish kerak?",a:["Parolni bo'lishish","Ikki bosqichli autentifikatsiya","Barcha xabarlarni ochish","Eski kompyuterdan foydalanish"],correct:1},{q:"Google Scholar va oddiy Google farqi?",a:["Rangi boshqacha","Scholar faqat ilmiy manbalarni ko'rsatadi","Tezligi turlicha","Farqi yo'q"],correct:1},{q:"Infografika yaratish maqsadi?",a:["Ranglar ko'p bo'lishi","Murakkab ma'lumotni vizual va tushunarli qilish","Sahifani to'ldirish","Vaqtni o'tkazish"],correct:1},{q:"Axborotni tanqidiy baholash deganda nima tushuniladi?",a:["Hamma ma'lumotga ishonish","Ma'lumot manbayi va dalillarni tahlil qilish","Faqat birinchi manbaga ishonish","Hech narsa o'qimaslik"],correct:1}];
+        const test2Questions=[{q:"Yangi mavzuni o'rganishda qaysi usulni afzal ko'rasiz?",a:{V:"Diagramma, jadval va rasmlar",A:"Audio ma'ruza yoki podcast",K:"Amalda qilib ko'rish",RW:"Kitob yoki maqola o'qish"}},{q:"Ma'lumotni eslab qolish uchun nima qilasiz?",a:{V:"Aqliy xarita chizaman",A:"Ovoz chiqarib takrorlayman",K:"Yozib ishlayman",RW:"Ko'p marta yozaman"}},{q:"Yo'lni tushuntirishda qaysi usulni tanlaysiz?",a:{V:"Xaritada ko'rsataman",A:"Og'zaki tushuntiraman",K:"O'zim olib boraman",RW:"Yozib beraman"}},{q:"Kitobni eslaysizmi?",a:{V:"Muqova va rasmlar",A:"Hikoya va dialoglar",K:"His-tuyg'ular",RW:"Syujet va faktlar"}},{q:"Yangi dastur bilan ishlashni o'rganishda?",a:{V:"Video darslarni tomosha qilaman",A:"Tushuntirishni tinglayman",K:"O'zim sinab ko'raman",RW:"Qo'llanma o'qiyman"}},{q:"Ma'ruzada qanday yozuv olasiz?",a:{V:"Sxema va rasm chizaman",A:"Tinglash orqali eslayman",K:"Real misollar yozaman",RW:"Batafsil konspekt"}},{q:"Yangi odamni eslashda nimasi esda qoladi?",a:{V:"Yuzi va kiyimi",A:"Ovozi va gapirish uslubi",K:"Qo'l berishish",RW:"Ismi va ma'lumotlar"}},{q:"Bo'sh vaqtingizda nima qilasiz?",a:{V:"Film yoki video",A:"Musiqa yoki podcast",K:"Sport yoki amaliyot",RW:"Kitob o'qish"}},{q:"Muammoni hal qilishda?",a:{V:"Diagramma chizaman",A:"Gaplashib fikr almasham",K:"Amalda sinab ko'raman",RW:"O'xshash muammolar haqida o'qiyman"}},{q:"Taqdimot tayyorlashda?",a:{V:"Slayd, rasm va grafik",A:"Nutq va hikoya",K:"Interaktiv faoliyat",RW:"Batafsil matn"}},{q:"Restaurant menyusidan ovqat tanlashda?",a:{V:"Rasm va tavsif",A:"Ofitsiant tavsiyasi",K:"Tatib ko'rgan ovqatlar",RW:"Ingredientlar ro'yxati"}},{q:"Mehmon uchun ko'cha nomini qanday aytasiz?",a:{V:"Xaritada ko'rsataman",A:"Telefon orqali yo'l-yo'riq",K:"Tanish joyda kutaman",RW:"SMS orqali manzil"}},{q:"Narsaning ishlashini o'rganish?",a:{V:"Sxema ko'rib o'rganaman",A:"So'rab o'rganaman",K:"Ochib ko'raman",RW:"Ko'rsatma o'qiyman"}},{q:"Sport qoidalarini o'rganish?",a:{V:"Video ko'raman",A:"Tushuntirib berishadi",K:"O'ynab o'rganaman",RW:"Qoidalar kitobini o'qiyman"}},{q:"Eng yaxshi dam olish turi?",a:{V:"Manzara tomosha",A:"Musiqa yoki suhbat",K:"Sayohat yoki sport",RW:"Kitob yoki jurnal"}},{q:"Imtihonga qanday tayyorlanasiz?",a:{V:"Rang-barang sxemalar",A:"Ovoz chiqarib o'qiyman",K:"Amaliy mashq qilaman",RW:"Konspekt o'qiyman"}}];
+        const test3Questions=[{q:"Google Docs da birgalikda ishlash mumkinmi?",a:["Ha, ishlataman","Eshitganman","Yo'q, bilmayman","Nima ekani bilmayman"],correct:0},{q:"Canva nima uchun ishlatiladi?",a:["Video tahrirlash","Grafik dizayn","Audio yozish","Dasturlash"],correct:1},{q:"QR kod nima?",a:["Parol","Smartfon orqali o'qiladigan kod","WiFi nomi","Dastur"],correct:1},{q:"Zoom da screen sharing nima uchun?",a:["Ovoz yaxshilash","Ekranni ko'rsatish","Internet tezlashtirish","Fayl saqlash"],correct:1},{q:"Google Classroom asosan nima uchun?",a:["Ijtimoiy tarmoq","Ta'limni tashkil etish","O'yin o'ynash","Musiqa tinglash"],correct:1},{q:"Kahoot platformasi nima?",a:["Video hosting","Interaktiv test platformasi","Messenger","Onlayn do'kon"],correct:1},{q:"Padlet nima uchun?",a:["Video montaj","Virtual hamkorlik doskasi","Parol saqlash","Haydovchilik sinovi"],correct:1},{q:"Google Forms yordamida?",a:["Video yaratish","So'rovnoma va test yaratish","Musiqa tahrirlash","Foto tahrirlash"],correct:1},{q:"YouTube da vaqt belgisi bilan ulashish mumkinmi?",a:["Ha, mumkin","Yo'q, faqat to'liq video","Faqat premium","Bilmayman"],correct:0},{q:"Ctrl+C va Ctrl+V nima qiladi?",a:["Nusxalash va qo'yish","Kesish va qo'yish","Saqlash","O'chirish"],correct:0},{q:"Animatsiya qo'shish nima uchun foydali?",a:["Faqat chiroyli ko'rinish","Diqqat jalb qilish","Fayl kattalashtirish","Vaqt o'tkazish"],correct:1},{q:"Telegram guruhlarda fayl ulashish mumkinmi?",a:["Ha, turli formatda","Yo'q, faqat matn","Faqat rasm","Faqat telefonda"],correct:0},{q:"Google Drive da qanday ulashish mumkin?",a:["Faqat email","Havola yoki email orqali","Iloji yo'q","Faqat yuklab olish"],correct:1},{q:"Videokonferensiyada mikrofon o'chirish nima uchun?",a:["Internet tejash","Shovqin kamaytirish","Tezlik olish","Energiya tejash"],correct:1},{q:"Smartfon yordamida qanday kontent yaratish mumkin?",a:["Hech narsa","Video, audio, foto va hujjatlar","Faqat telefon","Faqat o'yin"],correct:1}];
+        
+        function startRegistration(){const n=document.getElementById('student-name').value.trim(),g=document.getElementById('student-group').value;if(!n||!g){alert('Ism va guruhni kiriting!');return;}studentData={name:n,group:g};showSection('test1-section');loadTest1();}
+        function loadTest1(){document.getElementById('test1-questions').innerHTML=test1Questions.map((q,i)=>`<div class="question-card"><div class="question-number">Savol ${i+1}/20</div><div class="question-text">${q.q}</div>${q.a.map((ans,j)=>`<label class="answer-option"><input type="radio" name="t1q${i}" value="${j}" onchange="selectAnswer(1,${i},${j})"><span>${ans}</span></label>`).join('')}</div>`).join('');}
+        function loadTest2(){document.getElementById('test2-questions').innerHTML=test2Questions.map((q,i)=>`<div class="question-card"><div class="question-number">Savol ${i+1}/16</div><div class="question-text">${q.q}</div>${Object.entries(q.a).map(([key,ans])=>`<label class="answer-option"><input type="radio" name="t2q${i}" value="${key}" onchange="selectAnswer(2,${i},'${key}')"><span>${ans}</span></label>`).join('')}</div>`).join('');}
+        function loadTest3(){document.getElementById('test3-questions').innerHTML=test3Questions.map((q,i)=>`<div class="question-card"><div class="question-number">Savol ${i+1}/15</div><div class="question-text">${q.q}</div>${q.a.map((ans,j)=>`<label class="answer-option"><input type="radio" name="t3q${i}" value="${j}" onchange="selectAnswer(3,${i},${j})"><span>${ans}</span></label>`).join('')}</div>`).join('');}
+        function selectAnswer(t,qi,ans){if(t===1)test1Answers[qi]=ans;else if(t===2)test2Answers[qi]=ans;else test3Answers[qi]=ans;updateProgress(t);document.querySelectorAll(`input[name="t${t}q${qi}"]`).forEach(r=>{r.parentElement.classList.toggle('selected',r.checked);});}
+        function updateProgress(t){const ans=t===1?test1Answers:t===2?test2Answers:test3Answers;const total=t===1?20:t===2?16:15;const filled=ans.filter(a=>a!==undefined).length;document.getElementById(`test${t}-progress`).style.width=(filled/total*100)+'%';document.getElementById(t===3?'test3-finish':`test${t}-next`).disabled=filled<total;}
+        function nextTest(t){if(t===1){showSection('test2-section');loadTest2();}else{showSection('test3-section');loadTest3();}}
+        function goBack(t){showSection(t===1?'registration-section':t===2?'test1-section':'test2-section');}
+        function finishTests(){const t1Score=test1Answers.reduce((s,a,i)=>s+(a===test1Questions[i].correct?5:0),0);const t3Score=test3Answers.reduce((s,a,i)=>s+(a===test3Questions[i].correct?7:0),0);const vark={V:0,A:0,K:0,RW:0};test2Answers.forEach(a=>{if(a)vark[a]++;});const totalV=Object.values(vark).reduce((a,b)=>a+b,0);Object.keys(vark).forEach(k=>vark[k]=Math.round(vark[k]/totalV*100));const total=t1Score+t3Score;const percent=Math.round(total/205*100);const level=percent<50?"Boshlang'ich":percent<80?"O'rta":"Yuqori";const strong=Object.keys(vark).reduce((a,b)=>vark[a]>vark[b]?a:b);const weak=Object.keys(vark).reduce((a,b)=>vark[a]<vark[b]?a:b);showResults({level,percent,t1Score,t3Score,vark,strong,weak,total});}
+        function showResults(r){showSection('results-section');const modalNames={V:'Vizual',A:'Audio',K:'Kinestetik',RW:'O\'qish/Yozish'};const modalColors={V:'#e74c3c',A:'#3498db',K:'#2ecc71',RW:'#f39c12'};document.getElementById('results-content').innerHTML=`<div style="background:#ecf0f1;padding:15px;border-radius:8px;margin-bottom:20px;"><strong>Talaba:</strong> ${studentData.name} | <strong>Guruh:</strong> ${studentData.group}</div><div class="result-highlight"><h2>Sizning darajangiz</h2><div class="score">${r.level}</div><p style="font-size:20px;">${r.percent}% (${r.total}/205 ball)</p></div><div class="result-box"><h3>Test natijalari:</h3><p><strong>Axborot kompetentsiyasi:</strong> ${r.t1Score}/100 ball</p><p><strong>Raqamli texnologiyalar:</strong> ${r.t3Score}/105 ball</p></div><div class="result-box"><h3>Modal Profil (VARK):</h3>${Object.entries(r.vark).map(([k,v])=>`<div class="modal-bar"><div class="modal-bar-label">${modalNames[k]}: ${v}%</div><div class="modal-bar-container"><div class="modal-bar-fill" style="width:${v}%;background:${modalColors[k]}">${v}%</div></div></div>`).join('')}</div><div class="recommendation-box"><h3>Tavsiyalar</h3><p><strong>Kuchli tomoning:</strong> ${modalNames[r.strong]} (${r.vark[r.strong]}%)</p><p><strong>Rivojlantirish:</strong> ${modalNames[r.weak]} (${r.vark[r.weak]}%)</p><p style="margin-top:10px;">Barcha modallarni kombinatsiya qilib foydalaning!</p></div><button class="btn" onclick="restart()">Qayta test topshirish</button>`;}
+        function showSection(id){['registration-section','test1-section','test2-section','test3-section','results-section'].forEach(s=>document.getElementById(s).classList.add('hidden'));document.getElementById(id).classList.remove('hidden');window.scrollTo(0,0);}
+        function restart(){if(confirm('Qaytadan boshlaysizmi?')){test1Answers=[];test2Answers=[];test3Answers=[];studentData={};showSection('registration-section');}}
+    </script>
+</body>
+</html>
